@@ -1,6 +1,8 @@
 package com.lesa.Expenses.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +19,8 @@ public class Receipt {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank
+    @NotNull
     private String shopName;
     private LocalDateTime receiptDate;
     private Double price;

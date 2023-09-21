@@ -1,7 +1,7 @@
 package com.lesa.Expenses.repository;
 
 import com.lesa.Expenses.domain.Receipt;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 
-public interface ReceiptRepository extends CrudRepository<Receipt, Long> {
+public interface ReceiptRepository extends ListCrudRepository<Receipt, Long> {
 }

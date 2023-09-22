@@ -1,6 +1,7 @@
 package com.lesa.Expenses.service;
 
 import com.lesa.Expenses.domain.Receipt;
+import com.lesa.Expenses.repository.ProductRepository;
 import com.lesa.Expenses.repository.ReceiptRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,11 @@ import java.util.Optional;
 public class ReceiptServiceImpl implements ReceiptService {
 
     private final ReceiptRepository receiptRepository;
+    private final ProductRepository productRepository;
 
-    public ReceiptServiceImpl(ReceiptRepository receiptRepository) {
+    public ReceiptServiceImpl(ReceiptRepository receiptRepository, ProductRepository productRepository) {
         this.receiptRepository = receiptRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -28,6 +31,11 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public Receipt saveReceipt(Receipt receipt) {
+        if(receipt.getProducts() != null) {
+            receipt.getProducts().stream()
+                    .filter(p -> !productRepository.existsById(p.getId()))
+                    .forEach(productRepository::save);
+        }
         return receiptRepository.save(receipt);
     }
 
@@ -35,6 +43,11 @@ public class ReceiptServiceImpl implements ReceiptService {
     public Optional<Receipt> updateReceipt(Long receipt_id, Receipt receipt) {
         if(receiptRepository.existsById(receipt_id)) {
             Optional<Receipt> existingReceipt = receiptRepository.findById(receipt_id);
+            if(existingReceipt.get().getProducts() != null) {
+                existingReceipt.get().getProducts().stream()
+                        .filter(p -> productRepository.findById(p.getId()).isPresent())
+                        .forEach(productRepository::save);
+            }
             existingReceipt.get().setShopName(receipt.getShopName());
             existingReceipt.get().setReceiptDate(receipt.getReceiptDate());
             existingReceipt.get().setPrice(receipt.getPrice());

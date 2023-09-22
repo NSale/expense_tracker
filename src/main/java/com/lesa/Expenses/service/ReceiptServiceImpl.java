@@ -33,7 +33,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     public Receipt saveReceipt(Receipt receipt) {
         if(receipt.getProducts() != null) {
             receipt.getProducts().stream()
-                    .filter(p -> !productRepository.existsById(p.getId()))
+                    .filter(p -> !productRepository.existsByName(p.getName()))
                     .forEach(productRepository::save);
         }
         return receiptRepository.save(receipt);

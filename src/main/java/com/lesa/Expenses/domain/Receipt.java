@@ -24,6 +24,7 @@ public class Receipt {
     private String shopName;
     private LocalDateTime receiptDate;
     private Double price;
+    @Enumerated(EnumType.STRING)
     private Currency currency;
     @OneToMany(mappedBy = "receipt")
     private List<Product> products;

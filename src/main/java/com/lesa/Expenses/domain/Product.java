@@ -20,10 +20,12 @@ public class Product {
     @NotNull
     private String name;
     private Double quantity;
+    @Enumerated(EnumType.STRING)
     private Unit unit;
     private Double price;
     @ManyToOne
-    @JoinColumn(name = "receipt_id")
+    @JoinTable(name = "receipt_product", joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "receipt_id"))
     private Receipt receipt;
 
     private enum Unit {

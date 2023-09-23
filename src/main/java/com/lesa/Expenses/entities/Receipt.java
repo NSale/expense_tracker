@@ -1,4 +1,4 @@
-package com.lesa.Expenses.domain;
+package com.lesa.Expenses.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -6,7 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -27,7 +28,7 @@ public class Receipt {
     @Enumerated(EnumType.STRING)
     private Currency currency;
     @OneToMany(mappedBy = "receipt")
-    private List<Product> products;
+    private Set<Product> products = new HashSet<>();
 
     public enum Currency {
         DIN, EUR

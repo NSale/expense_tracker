@@ -1,4 +1,4 @@
-package com.lesa.Expenses.domain;
+package com.lesa.Expenses.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -7,8 +7,8 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Builder
 public class Product {
@@ -24,11 +24,10 @@ public class Product {
     private Unit unit;
     private Double price;
     @ManyToOne
-    @JoinTable(name = "receipt_product", joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "receipt_id"))
+    @JoinColumn(name = "receipt_id")
     private Receipt receipt;
 
-    private enum Unit {
-        pc, pcs, kg, g, m, mm, l
+    public enum Unit {
+        PC, PCS, KG, G, M, MM, L
     }
 }

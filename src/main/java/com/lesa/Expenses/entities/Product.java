@@ -5,31 +5,29 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-@Setter
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Builder
-public class Receipt {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotBlank
     @NotNull
-    private String shopName;
-    private LocalDateTime receiptDate;
-    private Double price;
+    private String name;
+    private Double quantity;
     @Enumerated(EnumType.STRING)
-    private Currency currency;
-    @OneToMany(mappedBy = "receipt")
-    private List<Product> products;
+    private Unit unit;
+    private Double price;
+    @ManyToOne
+    @JoinColumn(name = "receipt_id")
+    private Receipt receipt;
 
-    public enum Currency {
-        DIN, EUR
+    public enum Unit {
+        PC, PCS, KG, G, M, MM, L
     }
 }

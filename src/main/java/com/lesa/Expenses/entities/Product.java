@@ -1,4 +1,4 @@
-package com.lesa.Expenses.domain;
+package com.lesa.Expenses.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

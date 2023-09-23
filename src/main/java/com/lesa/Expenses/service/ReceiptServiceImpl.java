@@ -1,46 +1,54 @@
 package com.lesa.Expenses.service;
 
-import com.lesa.Expenses.domain.Receipt;
+import com.lesa.Expenses.dtos.ReceiptDTO;
+import com.lesa.Expenses.entities.Receipt;
+import com.lesa.Expenses.mappers.ReceiptMapper;
 import com.lesa.Expenses.repository.ProductRepository;
 import com.lesa.Expenses.repository.ReceiptRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReceiptServiceImpl implements ReceiptService {
 
     private final ReceiptRepository receiptRepository;
     private final ProductRepository productRepository;
+    private final ReceiptMapper receiptMapper;
 
-    public ReceiptServiceImpl(ReceiptRepository receiptRepository, ProductRepository productRepository) {
+    public ReceiptServiceImpl(ReceiptRepository receiptRepository, ProductRepository productRepository, ReceiptMapper receiptMapper) {
         this.receiptRepository = receiptRepository;
         this.productRepository = productRepository;
+        this.receiptMapper = receiptMapper;
     }
 
     @Override
-    public List<Receipt> getReceipts() {
-        return receiptRepository.findAll();
+    public List<ReceiptDTO> getReceipts() {
+        return receiptRepository.findAll().stream().map(receiptMapper::receiptToReceiptDto).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Receipt> getReceipt(Long id) {
-        return receiptRepository.findById(id);
+    public ReceiptDTO getReceipt(Long id) {
+        if(receiptRepository.findById(id).isPresent()) {
+            return receiptMapper.receiptToReceiptDto(receiptRepository.findById(id).get());
+        }
+        return null;
     }
 
     @Override
-    public Receipt saveReceipt(Receipt receipt) {
-        if(receipt.getProducts() != null) {
-            receipt.getProducts().stream()
+    public ReceiptDTO saveReceipt(ReceiptDTO receipt) {
+        if(receipt.products() != null) {
+            receipt.products().stream()
                     .filter(p -> !productRepository.existsByName(p.getName()))
                     .forEach(productRepository::save);
         }
-        return receiptRepository.save(receipt);
+        return receiptMapper.receiptToReceiptDto(receiptRepository.save(receiptMapper.receiptDtoToReceipt(receipt)));
     }
 
     @Override
-    public Optional<Receipt> updateReceipt(Long receipt_id, Receipt receipt) {
+    public ReceiptDTO updateReceipt(Long receipt_id, ReceiptDTO receipt) {
         if(receiptRepository.existsById(receipt_id)) {
             Optional<Receipt> existingReceipt = receiptRepository.findById(receipt_id);
             if(existingReceipt.get().getProducts() != null) {
@@ -48,15 +56,15 @@ public class ReceiptServiceImpl implements ReceiptService {
                         .filter(p -> productRepository.findById(p.getId()).isPresent())
                         .forEach(productRepository::save);
             }
-            existingReceipt.get().setShopName(receipt.getShopName());
-            existingReceipt.get().setReceiptDate(receipt.getReceiptDate());
-            existingReceipt.get().setPrice(receipt.getPrice());
-            existingReceipt.get().setCurrency(receipt.getCurrency());
-            existingReceipt.get().setProducts(receipt.getProducts());
+            existingReceipt.get().setShopName(receipt.shopName());
+            existingReceipt.get().setReceiptDate(receipt.receiptDate());
+            existingReceipt.get().setPrice(receipt.price());
+            existingReceipt.get().setCurrency(receipt.currency());
+            existingReceipt.get().setProducts(receipt.products());
             receiptRepository.save(existingReceipt.get());
-            return existingReceipt;
+            return receiptMapper.receiptToReceiptDto(existingReceipt.get());
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override

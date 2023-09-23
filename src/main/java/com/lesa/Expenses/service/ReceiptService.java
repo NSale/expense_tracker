@@ -1,15 +1,14 @@
 package com.lesa.Expenses.service;
 
-import com.lesa.Expenses.domain.Receipt;
+import com.lesa.Expenses.dtos.ReceiptDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ReceiptService {
 
-    List<Receipt> getReceipts();
-    Optional<Receipt> getReceipt(Long id);
-    Receipt saveReceipt(Receipt receipt);
-    Optional<Receipt> updateReceipt(Long receipt_id, Receipt receipt);
+    List<ReceiptDTO> getReceipts();
+    ReceiptDTO getReceipt(Long id);
+    ReceiptDTO saveReceipt(ReceiptDTO receipt);
+    ReceiptDTO updateReceipt(Long receipt_id, ReceiptDTO receipt);
     void deleteReceipt(Long id);
 }

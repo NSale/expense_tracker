@@ -27,7 +27,7 @@ public class Receipt {
     private Double price;
     @Enumerated(EnumType.STRING)
     private Currency currency;
-    @OneToMany(mappedBy = "receipt")
+    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
     private Set<Product> products = new HashSet<>();
 
     public enum Currency {

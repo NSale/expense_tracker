@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 public class ReceiptServiceImpl implements ReceiptService {
 
     private final ReceiptRepository receiptRepository;
-    private final ProductRepository productRepository;
     private final ReceiptMapper receiptMapper;
+    private final ProductService productService;
 
-    public ReceiptServiceImpl(ReceiptRepository receiptRepository, ProductRepository productRepository, ReceiptMapper receiptMapper) {
+    public ReceiptServiceImpl(ReceiptRepository receiptRepository, ReceiptMapper receiptMapper, ProductService productService) {
         this.receiptRepository = receiptRepository;
-        this.productRepository = productRepository;
         this.receiptMapper = receiptMapper;
+        this.productService = productService;
     }
 
     @Override
@@ -39,23 +39,15 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public ReceiptDTO saveReceipt(ReceiptDTO receipt) {
-        if(receipt.products() != null) {
-            receipt.products().stream()
-                    .filter(p -> !productRepository.existsByName(p.getName()))
-                    .forEach(productRepository::save);
-        }
-        return receiptMapper.receiptToReceiptDto(receiptRepository.save(receiptMapper.receiptDtoToReceipt(receipt)));
+        ReceiptDTO savedReceipt = receiptMapper.receiptToReceiptDto(receiptRepository.save(receiptMapper.receiptDtoToReceipt(receipt)));
+        receipt.products().forEach(p -> productService.addProductToReceipt(savedReceipt, p));
+        return savedReceipt;
     }
 
     @Override
     public ReceiptDTO updateReceipt(Long receipt_id, ReceiptDTO receipt) {
         if(receiptRepository.existsById(receipt_id)) {
             Optional<Receipt> existingReceipt = receiptRepository.findById(receipt_id);
-            if(existingReceipt.get().getProducts() != null) {
-                existingReceipt.get().getProducts().stream()
-                        .filter(p -> productRepository.findById(p.getId()).isPresent())
-                        .forEach(productRepository::save);
-            }
             existingReceipt.get().setShopName(receipt.shopName());
             existingReceipt.get().setReceiptDate(receipt.receiptDate());
             existingReceipt.get().setPrice(receipt.price());

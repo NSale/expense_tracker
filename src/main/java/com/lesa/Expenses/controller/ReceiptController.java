@@ -1,6 +1,7 @@
 package com.lesa.Expenses.controller;
 
 import com.lesa.Expenses.dtos.ReceiptDTO;
+import com.lesa.Expenses.service.ProductService;
 import com.lesa.Expenses.service.ReceiptService;
 import org.springframework.http.HttpEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,9 +14,11 @@ import java.util.List;
 public class ReceiptController {
 
     private final ReceiptService receiptService;
+    private final ProductService productService;
 
-    public ReceiptController(ReceiptService receiptService) {
+    public ReceiptController(ReceiptService receiptService, ProductService productService) {
         this.receiptService = receiptService;
+        this.productService = productService;
     }
 
     @GetMapping
@@ -30,11 +33,16 @@ public class ReceiptController {
 
     @PostMapping("receipt")
     public HttpEntity<ReceiptDTO> createReceipt(@Validated @RequestBody ReceiptDTO receipt) {
+        receipt.products()
+                .forEach(productService::saveProduct);
         return new HttpEntity<>(receiptService.saveReceipt(receipt));
     }
 
     @PutMapping("receipt/{receipt_id}")
     public HttpEntity<ReceiptDTO> updateReceipt(@Validated @RequestBody ReceiptDTO receipt, @PathVariable Long receipt_id) {
+        receipt.products().stream()
+                .filter(p -> productService.findProductById(p.getId()) !=null)
+                .forEach(productService::saveProduct);
         return new HttpEntity<>(receiptService.updateReceipt(receipt_id, receipt));
     }
 

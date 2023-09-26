@@ -1,4 +1,4 @@
-package com.lesa.Expenses.entities;
+package com.lesa.Expenses.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

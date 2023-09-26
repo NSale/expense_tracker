@@ -1,6 +1,6 @@
-package com.lesa.Expenses.dtos;
+package com.lesa.Expenses.dto;
 
-import com.lesa.Expenses.entities.Bill;
+import com.lesa.Expenses.entity.Bill;
 
 import java.time.LocalDateTime;
 

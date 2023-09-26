@@ -1,7 +1,7 @@
-package com.lesa.Expenses.mappers;
+package com.lesa.Expenses.mapper;
 
-import com.lesa.Expenses.dtos.BillDTO;
-import com.lesa.Expenses.entities.Bill;
+import com.lesa.Expenses.dto.BillDTO;
+import com.lesa.Expenses.entity.Bill;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

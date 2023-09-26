@@ -1,9 +1,8 @@
 package com.lesa.Expenses.service;
 
-import com.lesa.Expenses.dtos.BillDTO;
-import com.lesa.Expenses.entities.Bill;
-import com.lesa.Expenses.entities.Receipt;
-import com.lesa.Expenses.mappers.BillMapper;
+import com.lesa.Expenses.dto.BillDTO;
+import com.lesa.Expenses.entity.Bill;
+import com.lesa.Expenses.mapper.BillMapper;
 import com.lesa.Expenses.repository.BillRepository;
 import org.springframework.stereotype.Service;
 

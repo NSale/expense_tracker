@@ -1,7 +1,7 @@
-package com.lesa.Expenses.mappers;
+package com.lesa.Expenses.mapper;
 
-import com.lesa.Expenses.dtos.ProductDTO;
-import com.lesa.Expenses.entities.Product;
+import com.lesa.Expenses.dto.ProductDTO;
+import com.lesa.Expenses.entity.Product;
 import org.mapstruct.Mapper;
 
 import java.util.Optional;

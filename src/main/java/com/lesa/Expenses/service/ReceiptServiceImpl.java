@@ -1,8 +1,8 @@
 package com.lesa.Expenses.service;
 
-import com.lesa.Expenses.dtos.ReceiptDTO;
-import com.lesa.Expenses.entities.Receipt;
-import com.lesa.Expenses.mappers.ReceiptMapper;
+import com.lesa.Expenses.dto.ReceiptDTO;
+import com.lesa.Expenses.entity.Receipt;
+import com.lesa.Expenses.mapper.ReceiptMapper;
 import com.lesa.Expenses.repository.ReceiptRepository;
 import org.springframework.stereotype.Service;
 

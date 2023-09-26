@@ -1,8 +1,8 @@
 package com.lesa.Expenses.service;
 
-import com.lesa.Expenses.dtos.ProductDTO;
-import com.lesa.Expenses.dtos.ReceiptDTO;
-import com.lesa.Expenses.entities.Product;
+import com.lesa.Expenses.dto.ProductDTO;
+import com.lesa.Expenses.dto.ReceiptDTO;
+import com.lesa.Expenses.entity.Product;
 
 public interface ProductService {
 

@@ -1,6 +1,6 @@
 package com.lesa.Expenses.controller;
 
-import com.lesa.Expenses.dtos.ReceiptDTO;
+import com.lesa.Expenses.dto.ReceiptDTO;
 import com.lesa.Expenses.service.ProductService;
 import com.lesa.Expenses.service.ReceiptService;
 import org.springframework.http.HttpEntity;

@@ -1,10 +1,8 @@
-package com.lesa.Expenses.mappers;
+package com.lesa.Expenses.mapper;
 
-import com.lesa.Expenses.dtos.ReceiptDTO;
-import com.lesa.Expenses.entities.Receipt;
+import com.lesa.Expenses.dto.ReceiptDTO;
+import com.lesa.Expenses.entity.Receipt;
 import org.mapstruct.Mapper;
-
-import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface ReceiptMapper {

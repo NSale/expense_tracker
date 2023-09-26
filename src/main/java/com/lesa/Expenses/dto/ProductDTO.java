@@ -1,7 +1,7 @@
-package com.lesa.Expenses.dtos;
+package com.lesa.Expenses.dto;
 
-import com.lesa.Expenses.entities.Product;
-import com.lesa.Expenses.entities.Receipt;
+import com.lesa.Expenses.entity.Product;
+import com.lesa.Expenses.entity.Receipt;
 
 public record ProductDTO(
         Long id,

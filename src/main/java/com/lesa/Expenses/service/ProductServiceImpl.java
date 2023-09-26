@@ -1,9 +1,9 @@
 package com.lesa.Expenses.service;
 
-import com.lesa.Expenses.dtos.ProductDTO;
-import com.lesa.Expenses.dtos.ReceiptDTO;
-import com.lesa.Expenses.entities.Product;
-import com.lesa.Expenses.mappers.ProductMapper;
+import com.lesa.Expenses.dto.ProductDTO;
+import com.lesa.Expenses.entity.Product;
+import com.lesa.Expenses.mapper.ProductMapper;
+import com.lesa.Expenses.mapper.ReceiptMapper;
 import com.lesa.Expenses.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,23 +12,20 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final ReceiptMapper receiptMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ReceiptMapper receiptMapper) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
+        this.receiptMapper = receiptMapper;
     }
 
     @Override
     public ProductDTO findProductById(Long id) {
-        return productMapper.productToProductDto(productRepository.findById(id));
+        return productMapper.productToProductDto(productRepository.findById(id).get());
     }
 
-    public void saveProduct(Product product) {
-        productRepository.save(product);
-    }
-
-    @Override
-    public void addProductToReceipt(ReceiptDTO receiptDTO, Product product) {
-        receiptDTO.products().add(product);
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
     }
 }

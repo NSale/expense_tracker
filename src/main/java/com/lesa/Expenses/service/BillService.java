@@ -1,6 +1,6 @@
 package com.lesa.Expenses.service;
 
-import com.lesa.Expenses.dtos.BillDTO;
+import com.lesa.Expenses.dto.BillDTO;
 
 import java.util.List;
 

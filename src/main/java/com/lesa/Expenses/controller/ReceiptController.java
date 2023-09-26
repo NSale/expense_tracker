@@ -1,6 +1,7 @@
 package com.lesa.Expenses.controller;
 
-import com.lesa.Expenses.dtos.ReceiptDTO;
+import com.lesa.Expenses.dto.ReceiptDTO;
+import com.lesa.Expenses.entity.Product;
 import com.lesa.Expenses.service.ProductService;
 import com.lesa.Expenses.service.ReceiptService;
 import org.springframework.http.HttpEntity;
@@ -8,6 +9,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/receipt")
@@ -33,15 +36,13 @@ public class ReceiptController {
 
     @PostMapping()
     public HttpEntity<ReceiptDTO> createReceipt(@Validated @RequestBody ReceiptDTO receipt) {
-        receipt.products()
-                .forEach(productService::saveProduct);
-        return new HttpEntity<>(receiptService.saveReceipt(receipt));
+        Set<Product> products = receipt.products().stream().map(productService::saveProduct).collect(Collectors.toSet());
+        return new HttpEntity<>(receiptService.saveReceipt(receipt, products));
     }
 
     @PutMapping("{receipt_id}")
     public HttpEntity<ReceiptDTO> updateReceipt(@Validated @RequestBody ReceiptDTO receipt, @PathVariable Long receipt_id) {
-        receipt.products().stream()
-                .filter(p -> productService.findProductById(p.getId()) !=null)
+        receipt.products()
                 .forEach(productService::saveProduct);
         return new HttpEntity<>(receiptService.updateReceipt(receipt_id, receipt));
     }

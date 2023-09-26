@@ -1,6 +1,6 @@
 package com.lesa.Expenses.controller;
 
-import com.lesa.Expenses.dtos.BillDTO;
+import com.lesa.Expenses.dto.BillDTO;
 import com.lesa.Expenses.service.BillService;
 import org.springframework.http.HttpEntity;
 import org.springframework.validation.annotation.Validated;

@@ -7,6 +7,5 @@ import com.lesa.Expenses.entity.Product;
 public interface ProductService {
 
     ProductDTO findProductById(Long id);
-    void saveProduct(Product product);
-    void addProductToReceipt(ReceiptDTO receiptDTO, Product product);
+    Product saveProduct(Product product);
 }

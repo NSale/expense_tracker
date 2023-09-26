@@ -1,5 +1,6 @@
 package com.lesa.Expenses.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +19,7 @@ import java.util.Set;
 public class Receipt {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     @NotNull
@@ -27,8 +28,14 @@ public class Receipt {
     private Double price;
     @Enumerated(EnumType.STRING)
     private Currency currency;
-    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Product> products = new HashSet<>();
+
+    public void addProduct(Product product) {
+        products.add(product);
+        product.setReceipt(this);
+    }
 
     public enum Currency {
         DIN, EUR

@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface ProductMapper {
 
     Product productDtoToProduct(ProductDTO dto);
-    ProductDTO productToProductDto(Optional<Product> product);
+    ProductDTO productToProductDto(Product product);
 }

@@ -14,29 +14,27 @@ import java.util.stream.Collectors;
 public class BillServiceImpl implements BillService {
 
     private final BillRepository billRepository;
-    private final BillMapper billMapper;
 
-    public BillServiceImpl(BillRepository billRepository, BillMapper billMapper) {
+    public BillServiceImpl(BillRepository billRepository) {
         this.billRepository = billRepository;
-        this.billMapper = billMapper;
     }
 
     @Override
     public List<BillDTO> getBills() {
-        return billRepository.findAll().stream().map(billMapper::billToBillDTO).collect(Collectors.toList());
+        return billRepository.findAll().stream().map(BillMapper.mapper::billToBillDTO).collect(Collectors.toList());
     }
 
     @Override
     public BillDTO getBill(Long id) {
         if(billRepository.findById(id).isPresent()) {
-            return billMapper.billToBillDTO(billRepository.findById(id).get());
+            return BillMapper.mapper.billToBillDTO(billRepository.findById(id).get());
         }
         return null;
     }
 
     @Override
     public BillDTO saveBill(BillDTO bill) {
-        return billMapper.billToBillDTO(billRepository.save(billMapper.billDTOToBill(bill)));
+        return BillMapper.mapper.billToBillDTO(billRepository.save(BillMapper.mapper.billDTOToBill(bill)));
     }
 
     @Override
@@ -47,7 +45,7 @@ public class BillServiceImpl implements BillService {
             existingBill.get().setAmount(bill.amount());
             existingBill.get().setType(bill.type());
             billRepository.save(existingBill.get());
-            return billMapper.billToBillDTO(existingBill.get());
+            return BillMapper.mapper.billToBillDTO(existingBill.get());
         }
         return null;
     }

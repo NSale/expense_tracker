@@ -1,5 +1,6 @@
 package com.lesa.Expenses.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ import lombok.*;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     @NotNull
@@ -23,8 +24,9 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Unit unit;
     private Double price;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "receipt_id")
+    @JsonBackReference
     private Receipt receipt;
 
     public enum Unit {

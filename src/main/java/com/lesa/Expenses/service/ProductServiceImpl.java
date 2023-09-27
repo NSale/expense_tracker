@@ -11,18 +11,14 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
-    private final ReceiptMapper receiptMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ReceiptMapper receiptMapper) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.productMapper = productMapper;
-        this.receiptMapper = receiptMapper;
     }
 
     @Override
     public ProductDTO findProductById(Long id) {
-        return productMapper.productToProductDto(productRepository.findById(id).get());
+        return ProductMapper.mapper.productToProductDto(productRepository.findById(id).get());
     }
 
     public Product saveProduct(Product product) {

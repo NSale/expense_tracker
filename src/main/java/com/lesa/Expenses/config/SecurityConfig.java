@@ -37,7 +37,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
 @Configuration
-public class SpringSecurityConfig {
+public class SecurityConfig {
 
     @Bean
     @Order(1)

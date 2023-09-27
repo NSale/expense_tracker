@@ -1,5 +1,6 @@
 package com.lesa.Expenses.service;
 
+import com.lesa.Expenses.dto.ProductDTO;
 import com.lesa.Expenses.dto.ReceiptDTO;
 import com.lesa.Expenses.entity.Product;
 
@@ -10,7 +11,7 @@ public interface ReceiptService {
 
     List<ReceiptDTO> getReceipts();
     ReceiptDTO getReceipt(Long id);
-    ReceiptDTO saveReceipt(ReceiptDTO receipt, Set<Product> products);
+    ReceiptDTO saveReceipt(ReceiptDTO receipt);
     ReceiptDTO updateReceipt(Long receipt_id, ReceiptDTO receipt);
     void deleteReceipt(Long id);
 }

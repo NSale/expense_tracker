@@ -15,7 +15,7 @@ import lombok.*;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotBlank
     @NotNull
@@ -24,9 +24,12 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Unit unit;
     private Double price;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "receipt_id")
-    @JsonBackReference
+    @ManyToOne
+    @JoinTable(
+            name = "product_receipt",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "receipt_id")
+    )
     private Receipt receipt;
 
     public enum Unit {

@@ -2,6 +2,7 @@ package com.lesa.Expenses.controller;
 
 import com.lesa.Expenses.dto.ReceiptDTO;
 import com.lesa.Expenses.entity.Product;
+import com.lesa.Expenses.mapper.ProductMapper;
 import com.lesa.Expenses.service.ProductService;
 import com.lesa.Expenses.service.ReceiptService;
 import org.springframework.http.HttpEntity;
@@ -37,7 +38,7 @@ public class ReceiptController {
     @PostMapping()
     public HttpEntity<ReceiptDTO> createReceipt(@Validated @RequestBody ReceiptDTO receipt) {
         Set<Product> products = receipt.products().stream().map(productService::saveProduct).collect(Collectors.toSet());
-        return new HttpEntity<>(receiptService.saveReceipt(receipt, products));
+        return new HttpEntity<>(receiptService.saveReceipt(receipt));
     }
 
     @PutMapping("{receipt_id}")

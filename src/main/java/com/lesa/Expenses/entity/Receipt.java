@@ -19,7 +19,7 @@ import java.util.Set;
 public class Receipt {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotBlank
     @NotNull
@@ -28,7 +28,6 @@ public class Receipt {
     private Double price;
     @Enumerated(EnumType.STRING)
     private Currency currency;
-    @JsonManagedReference
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Product> products = new HashSet<>();
 

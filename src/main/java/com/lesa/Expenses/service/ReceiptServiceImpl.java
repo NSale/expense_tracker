@@ -18,35 +18,29 @@ import java.util.stream.Collectors;
 public class ReceiptServiceImpl implements ReceiptService {
 
     private final ReceiptRepository receiptRepository;
-    private final ReceiptMapper receiptMapper;
     private final ProductService productService;
-    private final ProductMapper productMapper;
 
-    public ReceiptServiceImpl(ReceiptRepository receiptRepository, ReceiptMapper receiptMapper, ProductService productService, ProductMapper productMapper) {
+    public ReceiptServiceImpl(ReceiptRepository receiptRepository, ProductService productService) {
         this.receiptRepository = receiptRepository;
-        this.receiptMapper = receiptMapper;
         this.productService = productService;
-        this.productMapper = productMapper;
     }
 
     @Override
     public List<ReceiptDTO> getReceipts() {
-        return receiptRepository.findAll().stream().map(receiptMapper::receiptToReceiptDto).collect(Collectors.toList());
+        return receiptRepository.findAll().stream().map(ReceiptMapper.mapper::receiptToReceiptDto).collect(Collectors.toList());
     }
 
     @Override
     public ReceiptDTO getReceipt(Long id) {
         if(receiptRepository.findById(id).isPresent()) {
-            return receiptMapper.receiptToReceiptDto(receiptRepository.findById(id).get());
+            return ReceiptMapper.mapper.receiptToReceiptDto(receiptRepository.findById(id).get());
         }
         return null;
     }
 
     @Override
-    public ReceiptDTO saveReceipt(ReceiptDTO receipt, Set<Product> products) {
-        Receipt savedReceipt = receiptRepository.save(receiptMapper.receiptDtoToReceipt(receipt));
-        products.forEach(savedReceipt::addProduct);
-        return receiptMapper.receiptToReceiptDto(savedReceipt);
+    public ReceiptDTO saveReceipt(ReceiptDTO receipt) {
+        return ReceiptMapper.mapper.receiptToReceiptDto(receiptRepository.save(ReceiptMapper.mapper.receiptDtoToReceipt(receipt)));
     }
 
     @Override
@@ -59,7 +53,7 @@ public class ReceiptServiceImpl implements ReceiptService {
             existingReceipt.get().setCurrency(receipt.currency());
             existingReceipt.get().setProducts(receipt.products());
             receiptRepository.save(existingReceipt.get());
-            return receiptMapper.receiptToReceiptDto(existingReceipt.get());
+            return ReceiptMapper.mapper.receiptToReceiptDto(existingReceipt.get());
         }
         return null;
     }
